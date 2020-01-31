@@ -124,33 +124,7 @@ def get_advisor(itemname):
             self.link1 = 'https://www.jarir.com/sa-en/catalogsearch/result/?order=priority&dir=asc&q='+itemname
 
 
-            def jarrer(tag1,tag2,tag3,link,pt,imgkey):
-                self.tag1 = tag1
-                self.tag2 = tag2
-                self.tag3 = tag3
-                self.link = requests.get(self.link1,headers=self.headers).text
-                self.get_result = BeautifulSoup(self.link,'html5lib').find_all(tag1 , {tag2:tag3})
-                self.get_result_price = BeautifulSoup(self.link,'html5lib').find_all('div' , {'class':'price'})
-
-                try:
-                    self.price = [int(self.get_result_price[i].text.replace('SR','').split(' ')[0].split(' ')[0]) for i in range(len(self.get_result_price))]
-                except:
-                    self.price = [int(self.get_result_price[i].text.replace('SR','').split(' ')[0].strip(self.get_result_price[i].text[0]).split('.')[0]) for i in range(len(self.get_result_price))]
-
-
-                self.name = [ self.get_result[i].find('a')['title'] for i in range(len(self.get_result))]
-                self.img = [self.get_result[i].find('img',{"class":"lazyload"})['data-src'] for i in range(len(self.get_result))]
-
-                self.data = [self.name,self.img]
-
-
-                return {"item name":self.data[0][0],"item img":self.data[1][0],"itme price":self.price[0]}
-
-
-            try:
-                return jarrer('li','class','item last',self.link1,'div','data-src')
-            except Exception as e :
-                return jarrer('li','class','item last',self.link1,'div',"")
+           
 
 
         def crawl_noon(self,all=bool()):
@@ -202,7 +176,7 @@ def get_advisor(itemname):
 
             return extra('div','class','c_product-tile js-product-tile js-gtm-button',self.link1,'div','data-src')
 
-    return {'result':{'jareer':collecter().crawl_jarrer(),'sooq':collecter().crawl_sooq(),'extra':collecter().crawl_extra(),'noon':collecter().crawl_noon()}}
+    return {'result':{'sooq':collecter().crawl_sooq(),'extra':collecter().crawl_extra(),'noon':collecter().crawl_noon()}}
 
 
 
